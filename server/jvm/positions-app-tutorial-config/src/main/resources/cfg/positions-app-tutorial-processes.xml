@@ -11,5 +11,36 @@
 !
 -->
 <processes>
-    
+    <process name="POSITIONS_APP_TUTORIAL_DATASERVER">
+        <groupId>POSITIONS_APP_TUTORIAL</groupId>
+        <start>true</start>
+        <options>-Xmx1024m -DXSD_VALIDATE=false</options>
+        <module>genesis-pal-dataserver</module>
+        <package>global.genesis.dataserver.pal</package>
+        <script>positions-app-tutorial-dataserver.kts</script>
+        <description>Displays real-time details</description>
+        <language>pal</language>
+        <loggingLevel>DEBUG,DATADUMP_ON</loggingLevel>
+    </process>
+    <process name="POSITIONS_APP_TUTORIAL_EVENT_HANDLER">
+        <groupId>POSITIONS_APP_TUTORIAL</groupId>
+        <start>true</start>
+        <options>-Xmx256m -DRedirectStreamsToLog=true -DXSD_VALIDATE=false</options>
+        <module>genesis-pal-eventhandler</module>
+        <package>global.genesis.eventhandler.pal</package>
+        <script>positions-app-tutorial-eventhandler.kts</script>
+        <description>Handles events</description>
+        <classpath>positions-app-tutorial-messages*,positions-app-tutorial-eventhandler*</classpath>
+        <language>pal</language>
+    </process>
+    <process name="POSITIONS_APP_TUTORIAL_REQUEST_SERVER">
+        <groupId>POSITIONS_APP_TUTORIAL</groupId>
+        <start>true</start>
+        <options>-Xmx256m -DRedirectStreamsToLog=true -DXSD_VALIDATE=false</options>
+        <module>genesis-pal-requestserver</module>
+        <package>global.genesis.requestreply.pal</package>
+        <script>position-app-tutorial-reqrep.kts</script>
+        <description>Server one-shot requests for details</description>
+        <language>pal</language>
+    </process>
 </processes>

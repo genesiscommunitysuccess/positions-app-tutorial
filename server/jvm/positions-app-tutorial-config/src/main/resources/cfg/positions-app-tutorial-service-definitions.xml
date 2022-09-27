@@ -11,5 +11,7 @@
 !
 -->
 <configuration>
-    
+    <service host="localhost" name="POSITIONS_APP_TUTORIAL_DATASERVER" port="11000"/>
+    <service host="localhost" name="POSITIONS_APP_TUTORIAL_EVENT_HANDLER" port="11001"/>
+    <service host="localhost" name="POSITIONS_APP_TUTORIAL_REQUEST_SERVER" port="11002"/>
 </configuration>
