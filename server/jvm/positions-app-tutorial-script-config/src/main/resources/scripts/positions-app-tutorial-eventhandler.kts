@@ -10,4 +10,10 @@
  */
 eventHandler {
 
+    eventHandler<Trade>(name = "TRADE_INSERT") {
+        onCommit { event ->
+            entityDb.insert(event.details)
+            ack()
+        }
+    }
 }
