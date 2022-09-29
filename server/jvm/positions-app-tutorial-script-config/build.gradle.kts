@@ -7,6 +7,8 @@ dependencies {
     api("global.genesis:genesis-pal-streamerclient")
     api("global.genesis:genesis-pal-eventhandler")
     api("global.genesis:genesis-pal-consolidator")
+    api(project(":positions-app-tutorial-eventhandler"))
+    api(project(":positions-app-tutorial-messages"))
     compileOnly(project(path = ":positions-app-tutorial-dictionary-cache", configuration = "codeGen"))
     testCompileOnly(project(":positions-app-tutorial-config"))
     testImplementation("global.genesis:genesis-dbtest")
