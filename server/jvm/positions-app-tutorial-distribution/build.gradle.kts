@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":positions-app-tutorial-camel-libs"))
     implementation(project(":positions-app-tutorial-config"))
     implementation(project(":positions-app-tutorial-dictionary-cache"))
     implementation(project(":positions-app-tutorial-eventhandler"))

@@ -12,6 +12,7 @@ import {Route, RouterConfiguration} from '@microsoft/fast-router';
 import {defaultLayout, loginLayout} from '../layouts';
 import {Home} from './home/home';
 import {NotFound} from './not-found/not-found';
+import { Users } from '@genesislcap/foundation-entity-management';
 
 export class MainRouterConfig extends RouterConfiguration<LoginSettings> {
   constructor(
@@ -25,6 +26,7 @@ export class MainRouterConfig extends RouterConfiguration<LoginSettings> {
 
   public allRoutes = [
     { index: 1, path: 'home', title: 'Home', icon: 'home', variant: 'solid' },
+    { index: 2, path: 'users', title: 'Users', icon: 'users', variant: 'solid' }
   ];
 
   public configure() {
@@ -36,6 +38,7 @@ export class MainRouterConfig extends RouterConfiguration<LoginSettings> {
     this.routes.map(
       {path: '', redirect: 'login'},
       {path: 'login', element: Login, title: 'Login', name: 'login', settings: {public: true, defaultRedirectUrl: 'home', autoConnect: true}, layout: loginLayout},
+      {path: 'users', element: Users, title: 'Users', name: 'users'},
       {path: 'home', element: Home, title: 'Home', name: 'home', settings: commonSettings},
       {path: 'not-found', element: NotFound, title: 'Not Found', name: 'not-found'},
     );

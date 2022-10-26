@@ -22,6 +22,7 @@ pluginManagement {
 
 
 
+include("positions-app-tutorial-camel-libs")
 include("positions-app-tutorial-config")
 include("positions-app-tutorial-messages")
 include("positions-app-tutorial-eventhandler")

@@ -39,7 +39,7 @@
         <options>-Xmx256m -DRedirectStreamsToLog=true -DXSD_VALIDATE=false</options>
         <module>genesis-pal-requestserver</module>
         <package>global.genesis.requestreply.pal</package>
-        <script>position-app-tutorial-reqrep.kts</script>
+        <script>positions-app-tutorial-reqrep.kts</script>
         <description>Server one-shot requests for details</description>
         <language>pal</language>
     </process>
@@ -54,4 +54,47 @@
         <loggingLevel>DEBUG,DATADUMP_ON</loggingLevel>
         <language>pal</language>
     </process>
+    <process name="POSITIONS_APP_TUTORIAL_EVALUATOR">
+        <start>true</start>
+        <groupId>POSITIONS_APP_TUTORIAL</groupId>
+        <options>-Xmx512m -DXSD_VALIDATE=false</options>
+        <module>genesis-evaluator</module>
+        <primaryOnly>true</primaryOnly>
+        <package>global.genesis.eventhandler,global.genesis.evaluator</package>
+        <description>Dynamic/time rules engine</description>
+    </process>
+    <process name="POSITIONS_APP_TUTORIAL_NOTIFY">
+        <start>true</start>
+        <groupId>GENESIS</groupId>
+        <options>-Xmx512m -DXSD_VALIDATE=false</options>
+        <module>genesis-notify</module>
+        <package>global.genesis.notify</package>
+        <script>positions-app-tutorial-notify.kts</script>
+        <language>pal</language>
+        <description>Notify Mechanism for sending messages to external systems, such as Email and Symphony</description>
+    </process>
+    <process name="POSITIONS_APP_TUTORIAL_DATAPIPELINE">
+        <groupId>POSITIONS_APP_TUTORIAL</groupId>
+        <start>true</start>
+        <options>-Xmx256m -DRedirectStreamsToLog=true -DXSD_VALIDATE=false</options>
+        <module>genesis-pal-datapipeline</module>
+        <package>global.genesis.datapipeline.pal</package>
+        <script>positions-app-tutorial-data-pipeline.kts</script>
+        <description>External data ingress pipeline</description>
+        <language>pal</language>
+        <loggingLevel>TRACE,DATADUMP_ON</loggingLevel>
+    </process>
+    <process name="POSITIONS_APP_TUTORIAL_CAMEL">
+        <groupId>POSITIONS_APP_TUTORIAL</groupId>
+        <start>true</start>
+        <options>-Xmx256m -DRedirectStreamsToLog=true -DXSD_VALIDATE=false</options>
+        <module>genesis-pal-camel</module>
+        <package>global.genesis.camel.pal</package>
+        <script>positions-app-tutorial-camel.kts</script>
+        <description>Camel integrations</description>
+        <classpath>positions-app-tutorial-camel-libs*.jar</classpath>
+        <language>pal</language>
+        <loggingLevel>TRACE,DATADUMP_ON</loggingLevel>
+    </process>
 </processes>
+

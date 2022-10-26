@@ -2,21 +2,93 @@ import {html} from '@microsoft/fast-element';
 import type {Home} from './home';
 import {positionColumnDefs} from './positionColumnDefs';
 import {repeat} from '@microsoft/fast-element';
-
+import {sync} from '@genesislcap/foundation-utils';
+import {positionGridStyles} from './positionsGrid.styles';
 
 export const HomeTemplate = html<Home>`
-<zero-ag-grid
-    style="width: 100%; height: 100%"
-    only-template-col-defs
-    persist-column-state-key='position-grid-settings'
-    >
-    <ag-genesis-datasource
-        resourceName="ALL_POSITIONS"
-        orderBy="INSTRUMENT_ID">
-    </ag-genesis-datasource>
-    ${repeat(() => positionColumnDefs, html`
-    <ag-grid-column :definition="${x => x}"></ag-grid-column>
-    `)}
-    <ag-grid-column :definition="${x => x.singlePositionActionColDef}" />
-</zero-ag-grid>
+    
+<zero-tabs class="horizontal" orientation="horizontal" activeindicator="">
+    <zero-tab slot="tab">Positions Grid
+    </zero-tab>
+    <zero-tab slot="tab">Trades Grid
+    </zero-tab>
+    <zero-tab slot="tab">Trades Form 1
+    </zero-tab>
+    <zero-tab slot="tab">Trades Form 2
+    </zero-tab>
+    <zero-tab slot="tab">Positions Chart
+    </zero-tab>
+    
+    <zero-tab-panel slot="tabpanel">
+        <div class="container">
+            <zero-grid-pro
+                    only-template-col-defs
+                    persist-column-state-key='position-grid-settings'
+            >
+                <slotted-styles :styles=${() => positionGridStyles}></slotted-styles>
+                <grid-pro-genesis-datasource
+                        resourceName="ALL_POSITIONS"
+                        orderBy="INSTRUMENT_ID">
+                </grid-pro-genesis-datasource>
+                ${repeat(() => positionColumnDefs, html`
+                    <grid-pro-column :definition="${x => x}"></grid-pro-column>
+                `)}
+                <grid-pro-column :definition="${x => x.singlePositionActionColDef}"></grid-pro-column>
+            </zero-grid-pro>
+        </div>    
+    </zero-tab-panel>
+    <zero-tab-panel slot="tabpanel">
+        <div class="container">
+            <zero-grid-pro>
+                <grid-pro-genesis-datasource
+                        resourceName="ALL_TRADES"
+                        orderBy="INSTRUMENT_ID">
+                </grid-pro-genesis-datasource>
+            </zero-grid-pro>
+        </div>
+    </zero-tab-panel>
+    <zero-tab-panel slot="tabpanel">
+        <div class="container">
+            <zero-form
+                    resourceName="EVENT_TRADE_INSERT"
+                    @submit=${(x, c) => x.insertTrade1(c.event as CustomEvent)}
+            ></zero-form>
+        </div>
+    </zero-tab-panel>
+    <zero-tab-panel slot="tabpanel">
+        <div class="container">
+            <zero-text-field
+                    :value=${sync(x=> x.quantity)}
+            >
+                Quantity
+            </zero-text-field>
+            <zero-text-field
+                    :value=${sync(x=> x.price)}
+            >
+                Price
+            </zero-text-field>
+            <span>Instrument</span>
+            <zero-select :value=${sync(x=> x.instrument)}>
+                <options-datasource resourceName="ALL_INSTRUMENTS" fields="INSTRUMENT_ID"></options-datasource>
+            </zero-select>
+            <span>Side</span>
+            <zero-select :value=${sync(x=> x.side)}>
+                <zero-option>BUY</zero-option>
+                <zero-option>SELL</zero-option>
+            </zero-select>
+            <zero-button @click=${x=> x.insertTrade2()}>Add Trade</zero-button>
+        </div>
+    </zero-tab-panel>
+    <zero-tab-panel slot="tabpanel">
+        <zero-charts type="pie" :config=${x => x.chartsConfiguration}>
+            <charts-datasource
+                    resourceName="ALL_POSITIONS"
+                    server-fields="INSTRUMENT_ID VALUE"
+                    charts-fields="type value"
+                    isSnapshot
+            ></charts-datasource>
+        </zero-charts>
+    </zero-tab-panel>
+
+</zero-tabs>
 `;

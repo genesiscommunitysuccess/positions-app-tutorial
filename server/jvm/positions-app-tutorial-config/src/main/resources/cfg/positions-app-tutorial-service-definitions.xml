@@ -15,4 +15,8 @@
     <service host="localhost" name="POSITIONS_APP_TUTORIAL_EVENT_HANDLER" port="11001"/>
     <service host="localhost" name="POSITIONS_APP_TUTORIAL_REQUEST_SERVER" port="11002"/>
     <service host="localhost" name="POSITIONS_APP_TUTORIAL_CONSOLIDATOR" port="11003"/>
+    <service host="localhost" name="POSITIONS_APP_TUTORIAL_EVALUATOR" port="11004"/>
+    <service host="localhost" name="POSITIONS_APP_TUTORIAL_NOTIFY" port="11005"/>
+    <service host="localhost" name="POSITIONS_APP_TUTORIAL_DATAPIPELINE" port="11006"/>
+    <service host="localhost" name="POSITIONS_APP_TUTORIAL_CAMEL" port="11007"/>
 </configuration>
