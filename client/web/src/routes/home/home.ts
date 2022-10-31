@@ -20,6 +20,7 @@ export class Home extends FASTElement {
   @observable public price: string;
   @observable public instrument: string;
   @observable public side: string = 'BUY';
+  @observable public tradeInstruments: Array<{value: string, label: string}>;
 
   public singlePositionActionColDef = {
     headerName: 'Action',
@@ -92,7 +93,11 @@ export class Home extends FASTElement {
     { type: 'Exam 6', value: 13 },
   ];
 
-  connectedCallback() {
-       super.connectedCallback();
+  public async connectedCallback() {
+    super.connectedCallback();
+
+    const tradeInstrumentsRequest = await this.connect.request('INSTRUMENT');
+    this.tradeInstruments = tradeInstrumentsRequest.REPLY?.map(instrument => ({value: instrument.INSTRUMENT_ID, label: instrument.INSTRUMENT_ID}));
+    this.instrument = this.tradeInstruments[0].value;
   }
 }

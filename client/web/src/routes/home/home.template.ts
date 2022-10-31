@@ -31,9 +31,9 @@ export const HomeTemplate = html<Home>`
                         orderBy="INSTRUMENT_ID">
                 </grid-pro-genesis-datasource>
                 ${repeat(() => positionColumnDefs, html`
-                    <grid-pro-column :definition="${x => x}"></grid-pro-column>
+                    <grid-pro-column :definition="${n => n}"></grid-pro-column>
                 `)}
-                <grid-pro-column :definition="${x => x.singlePositionActionColDef}"></grid-pro-column>
+                <grid-pro-column :definition="${n => n.singlePositionActionColDef}"></grid-pro-column>
             </zero-grid-pro>
         </div>    
     </zero-tab-panel>
@@ -51,7 +51,7 @@ export const HomeTemplate = html<Home>`
         <div class="container">
             <zero-form
                     resourceName="EVENT_TRADE_INSERT"
-                    @submit=${(x, c) => x.insertTrade1(c.event as CustomEvent)}
+                    @submit=${(y, c) => y.insertTrade1(c.event as CustomEvent)}
             ></zero-form>
         </div>
     </zero-tab-panel>
@@ -68,8 +68,10 @@ export const HomeTemplate = html<Home>`
                 Price
             </zero-text-field>
             <span>Instrument</span>
-            <zero-select :value=${sync(x=> x.instrument)}>
-                <options-datasource resourceName="ALL_INSTRUMENTS" fields="INSTRUMENT_ID"></options-datasource>
+            <zero-select :value=${sync(x => x.instrument)}>
+                ${repeat(x => x.tradeInstruments, html`
+                <zero-option value=${x => x.value}>${x => x.label}</zero-option>
+                `)}
             </zero-select>
             <span>Side</span>
             <zero-select :value=${sync(x=> x.side)}>
