@@ -1,5 +1,5 @@
-import { css, html, repeat } from '@microsoft/fast-element';
-import { FASTElementLayout } from '@microsoft/fast-router';
+import { css, html, repeat } from "@microsoft/fast-element";
+import { FASTElementLayout } from "@microsoft/fast-router";
 
 const baseLayoutCss = css`
   .container {
@@ -42,11 +42,25 @@ export const defaultLayout = new FASTElementLayout(
               value="${(x) => x.index}"
               @click=${(x, c) => c.parent.navigation.navigateTo(x.path)}
             >
-              <zero-icon variant="${(x) => x.variant}" name="${(x) => x.icon}"></zero-icon>
+              <zero-icon
+                variant="${(x) => x.variant}"
+                name="${(x) => x.icon}"
+              ></zero-icon>
               ${(x) => x.title}
             </zero-button>
           `
         )}
+        <div slot="menu-contents">
+          <zero-button
+            appearance="neutral-grey"
+            @click=${(x, _) => {
+              const { resetLayout } = x.lastChild;
+              resetLayout();
+            }}
+          >
+            Reset Layout
+          </zero-button>
+        </div>
         <span slot="group-title-1">GROUP SLOT</span>
         <zero-tree-view slot="nav-items-1">
           <zero-tree-item>

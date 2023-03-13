@@ -4,15 +4,20 @@ import {
   FoundationAnalyticsEvent,
   FoundationAnalyticsEventType,
   Session,
-} from '@genesislcap/foundation-comms';
-import {Login, Settings as LoginSettings} from '@genesislcap/foundation-login';
-import {Constructable} from '@microsoft/fast-element';
-import {Container} from '@microsoft/fast-foundation';
-import {Route, RouterConfiguration} from '@microsoft/fast-router';
-import {defaultLayout, loginLayout} from '../layouts';
-import {Home} from './home/home';
-import {NotFound} from './not-found/not-found';
-import { Users } from '@genesislcap/foundation-entity-management';
+} from "@genesislcap/foundation-comms";
+import {
+  defaultLoginConfig,
+  Login,
+  LoginConfig,
+  Settings as LoginSettings,
+} from "@genesislcap/foundation-login";
+import { Constructable } from "@microsoft/fast-element";
+import { Container, optional } from "@microsoft/fast-foundation";
+import { Route, RouterConfiguration } from "@microsoft/fast-router";
+import { defaultLayout, loginLayout } from "../layouts";
+import { Home } from "./home/home";
+import { NotFound } from "./not-found/not-found";
+import { Users } from "@genesislcap/foundation-entity-management";
 
 export class MainRouterConfig extends RouterConfiguration<LoginSettings> {
   constructor(
@@ -20,27 +25,56 @@ export class MainRouterConfig extends RouterConfiguration<LoginSettings> {
     @Container private container: Container,
     @FoundationAnalytics private analytics: FoundationAnalytics,
     @Session private session: Session,
+    @optional(LoginConfig)
+    private loginConfig: LoginConfig = {
+      ...defaultLoginConfig,
+      autoAuth: true,
+      autoConnect: true,
+    }
   ) {
     super();
   }
 
   public allRoutes = [
-    { index: 1, path: 'home', title: 'Home', icon: 'home', variant: 'solid' },
-    { index: 2, path: 'users', title: 'Users', icon: 'users', variant: 'solid' }
+    { index: 1, path: "home", title: "Home", icon: "home", variant: "solid" },
+    {
+      index: 2,
+      path: "users",
+      title: "Users",
+      icon: "users",
+      variant: "solid",
+    },
   ];
 
   public configure() {
-    this.title = 'Blank App Demo';
+    this.title = "Blank App Demo";
     this.defaultLayout = defaultLayout;
 
-    const commonSettings: LoginSettings = {allowAutoAuth: true};
-
     this.routes.map(
-      {path: '', redirect: 'login'},
-      {path: 'login', element: Login, title: 'Login', name: 'login', settings: {public: true, defaultRedirectUrl: 'home', autoConnect: true}, layout: loginLayout},
-      {path: 'users', element: Users, title: 'Users', name: 'users'},
-      {path: 'home', element: Home, title: 'Home', name: 'home', settings: commonSettings},
-      {path: 'not-found', element: NotFound, title: 'Not Found', name: 'not-found'},
+      { path: "", redirect: "login" },
+      {
+        path: "login",
+        element: Login,
+        title: "Login",
+        name: "login",
+        settings: {
+          public: true,
+        },
+        layout: loginLayout,
+      },
+      { path: "users", element: Users, title: "Users", name: "users" },
+      {
+        path: "home",
+        element: Home,
+        title: "Home",
+        name: "home",
+      },
+      {
+        path: "not-found",
+        element: NotFound,
+        title: "Not Found",
+        name: "not-found",
+      }
     );
 
     const auth = this.auth;
@@ -48,7 +82,9 @@ export class MainRouterConfig extends RouterConfiguration<LoginSettings> {
     /**
      * Example of a FallbackRouteDefinition
      */
-    this.routes.fallback(() => (this.auth.isLoggedIn ? {redirect: 'not-found'} : {redirect: 'login'}));
+    this.routes.fallback(() =>
+      this.auth.isLoggedIn ? { redirect: "not-found" } : { redirect: "login" }
+    );
 
     /**
      * Example of a NavigationContributor
@@ -57,7 +93,9 @@ export class MainRouterConfig extends RouterConfiguration<LoginSettings> {
       navigate: async (phase) => {
         const settings = phase.route.settings;
 
-        this.analytics.trackEvent(FoundationAnalyticsEventType.routeChanged, <FoundationAnalyticsEvent.RouteChanged>{
+        this.analytics.trackEvent(FoundationAnalyticsEventType.routeChanged, <
+          FoundationAnalyticsEvent.RouteChanged
+        >{
           path: phase.route.endpoint.path,
         });
 
@@ -78,7 +116,7 @@ export class MainRouterConfig extends RouterConfiguration<LoginSettings> {
         /**
          * If allowAutoAuth and session is valid try to connect+auto-login
          */
-        if (settings && settings.allowAutoAuth && await auth.reAuthFromSession()) {
+        if (this.loginConfig.autoAuth && (await auth.reAuthFromSession())) {
           return;
         }
 
@@ -87,7 +125,7 @@ export class MainRouterConfig extends RouterConfiguration<LoginSettings> {
          */
         phase.cancel(() => {
           this.session.captureReturnUrl();
-          Route.name.replace(phase.router, 'login');
+          Route.name.replace(phase.router, "login");
         });
       },
     });

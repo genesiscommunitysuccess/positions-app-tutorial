@@ -1,7 +1,7 @@
-import { css } from '@microsoft/fast-element';
-import { mixinScreen } from '../../styles';
+import { css } from "@microsoft/fast-element";
+import { mixinScreen } from '../../../styles';
 
-export const HomeStyles = css`
+export const insertTradesFormStyles = css`
   :host {
     ${mixinScreen('flex')}
     align-items: center;

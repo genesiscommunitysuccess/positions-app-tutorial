@@ -4,8 +4,11 @@ import { FASTRouter } from '@microsoft/fast-router';
 import { zeroGridComponents } from '@genesislcap/foundation-zero-grid-pro';
 import { g2plotChartsComponents } from '@genesislcap/g2plot-chart';
 import { logger } from '../utils';
+import { Form } from '@genesislcap/foundation-forms';
+import { foundationLayoutComponents } from '@genesislcap/foundation-layout';
 
 EntityManagement;
+Form;
 
 provideFASTDesignSystem().register(allComponents);
 
@@ -48,7 +51,8 @@ export async function loadRemotes() {
     ZeroDesignSystem: provideDesignSystem().register(
       baseComponents,
       zeroGridComponents,
-      g2plotChartsComponents
+      g2plotChartsComponents,
+      foundationLayoutComponents
     ),
   };
 }
