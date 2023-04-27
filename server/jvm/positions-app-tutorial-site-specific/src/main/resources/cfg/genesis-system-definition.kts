@@ -32,7 +32,7 @@ systemDefinition {
                 host(LOCAL_HOST)
             }
 
-            item(name = "DbNamespace", value = "positions-app-tutorial")
+            item(name = "DbNamespace", value = "positionsAppTutorial")
             item(name = "ClusterPort", value = "6000")
             item(name = "location", value = "LO")
             item(name = "LogFramework", value = "LOG4J2")
